@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlowFit - Nutrition Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+
+  <!-- Header -->
+  <header class="bg-white dark:bg-gray-800 shadow p-6 mb-6">
+    <h1 class="text-3xl font-bold text-center text-teal-600">🍽️ Nutrition Tracker</h1>
+  </header>
+
+  <!-- Meals Today -->
+  <main class="max-w-6xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <div class="meal-card">
+        <h2 class="text-xl font-semibold mb-2">🍳 Breakfast</h2>
+        <ul id="breakfast-list" class="list-disc list-inside mb-2 text-sm"></ul>
+        <input type="text" id="breakfast-input" placeholder="Add item" class="input-box" />
+        <div class="flex justify-between mt-2 space-x-2">
+          <button onclick="addFood('breakfast')" class="btn-green">Add</button>
+          <button onclick="clearFood('breakfast')" class="btn-red">Clear</button>
+        </div>
+      </div>
+      <div class="meal-card">
+        <h2 class="text-xl font-semibold mb-2">🥗 Lunch</h2>
+        <ul id="lunch-list" class="list-disc list-inside mb-2 text-sm"></ul>
+        <input type="text" id="lunch-input" placeholder="Add item" class="input-box" />
+        <div class="flex justify-between mt-2 space-x-2">
+          <button onclick="addFood('lunch')" class="btn-green">Add</button>
+          <button onclick="clearFood('lunch')" class="btn-red">Clear</button>
+        </div>
+      </div>
+      <div class="meal-card">
+        <h2 class="text-xl font-semibold mb-2">🍛 Dinner</h2>
+        <ul id="dinner-list" class="list-disc list-inside mb-2 text-sm"></ul>
+        <input type="text" id="dinner-input" placeholder="Add item" class="input-box" />
+        <div class="flex justify-between mt-2 space-x-2">
+          <button onclick="addFood('dinner')" class="btn-green">Add</button>
+          <button onclick="clearFood('dinner')" class="btn-red">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <section class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-10">
+      <h2 class="text-2xl font-bold mb-4">📅 View Past Nutrition</h2>
+      <div class="flex items-center space-x-4 mb-4">
+        <input type="date" id="history-date" class="input-box text-black" />
+        <button onclick="fetchNutritionByDate()" class="bg-teal-500 hover:bg-teal-600 text-black px-4 py-2 rounded">View</button>
+      </div>
+      <div id="history-section" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- Go Back -->
+    <button onclick="window.location.href='dashboard.html'" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+      ← Go Back
+    </button>
+  </main>
+
+  <!-- Styles -->
+  <style>
+    .meal-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .input-box {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    .btn-green {
+      background-color: #10B981;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+    }
+    .btn-green:hover {
+      background-color: #059669;
+    }
+    .btn-red {
+      background-color: #EF4444;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+    }
+    .btn-red:hover {
+      background-color: #DC2626;
+    }
+  </style>
+
+  <!-- Scripts -->
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "login.html";
+
+    function fetchToday() {
+      fetch("http://localhost:5000/api/nutrition", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then(res => res.json())
+        .then(data => {
+          ["breakfast", "lunch", "dinner"].forEach(meal => {
+            const list = document.getElementById(`${meal}-list`);
+            list.innerHTML = "";
+            (data[meal] || []).forEach(item => {
+              const li = document.createElement("li");
+              li.textContent = item;
+              list.appendChild(li);
+            });
+          });
+        });
+    }
+
+    function addFood(meal) {
+      const input = document.getElementById(`${meal}-input`);
+      const item = input.value.trim();
+      if (!item) return;
+
+      fetch(`http://localhost:5000/api/nutrition/${meal}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ item }),
+      }).then(() => {
+        input.value = "";
+        fetchToday();
+      });
+    }
+
+    function clearFood(meal) {
+      fetch(`http://localhost:5000/api/nutrition/${meal}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }).then(() => fetchToday());
+    }
+
+    function fetchNutritionByDate() {
+      const date = document.getElementById("history-date").value;
+      if (!date) return;
+
+      fetch(`http://localhost:5000/api/nutrition/history/${date}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("History Data:", data); // Debug
+          const section = document.getElementById("history-section");
+          section.innerHTML = "";
+
+          if (!data || (!data.breakfast?.length && !data.lunch?.length && !data.dinner?.length)) {
+            section.innerHTML = "<p class='col-span-3 text-center text-gray-500'>No records found for this date.</p>";
+            return;
+          }
+
+          ["breakfast", "lunch", "dinner"].forEach(meal => {
+            const items = data[meal] || [];
+            const box = document.createElement("div");
+            box.className = "bg-gray-100 dark:bg-gray-700 p-4 rounded shadow";
+
+            const title = document.createElement("h4");
+            title.className = "font-semibold text-lg mb-2 capitalize";
+            title.textContent = meal;
+
+            const ul = document.createElement("ul");
+            ul.className = "list-disc list-inside text-sm";
+            items.forEach(item => {
+              const li = document.createElement("li");
+              li.textContent = item;
+              ul.appendChild(li);
+            });
+
+            box.appendChild(title);
+            box.appendChild(ul);
+            section.appendChild(box);
+          });
+        });
+    }
+
+    window.onload = fetchToday;
+  </script>
+</body>
+</html>

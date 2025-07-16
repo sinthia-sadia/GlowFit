@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit Dashboard </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Custom scrollbar for dropdown */
+    #dropdown::-webkit-scrollbar {
+      width: 6px;
+    }
+    #dropdown::-webkit-scrollbar-thumb {
+      background-color: #0d9488;
+      border-radius: 3px;
+    }
+    /* Accordion transition */
+    .answer {
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+    }
+  </style>
+
+
+</head>
+
+<body class="bg-teal-50 text-gray-900 transition duration-300">
+
+<!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-3xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="text-teal-600 font-semibold">Dashboard</a></li>
+      <li><a href="profile.html" class="hover:text-teal-600">Profile</a></li>
+      <li><a href="workout.html" class="hover:text-teal-600">Workout</a></li>
+      <li><a href="about.html" class="hover:text-teal-600">About Us</a></li>
+      <li class="relative">
+        <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+          <div class="flex items-center space-x-4 p-4">
+            <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+            <div>
+             <p id="dropdownName" class="font-bold"></p>
+            <p id="dropdownUsername" class="text-sm text-gray-500"></p>
+            <p id="dropdownEmail" class="text-sm text-gray-500"></p>
+            </div>
+          </div>
+          <hr class="border-gray-300" />
+          <div class="p-4 space-y-2">
+            <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+            <a href="profile.html#edit" class="block text-teal-600 hover:underline">Edit Profile</a>
+            <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Dashboard Cards Section -->
+  <main class="max-w-6xl mx-auto px-6 py-12 w-full" data-aos="fade-up" data-aos-duration="1000">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="workout.html" class="block">
+        <div class="bg-teal-500 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">🏃‍♂️ Workout</h3>
+          
+        </div>
+      </a>
+      <a href="nutrition.html" class="block">
+        <div class="bg-pink-500 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">🍽 Nutrition</h3>
+         
+        </div>
+      </a>
+      <a href="water.html" class="block">
+        <div class="bg-blue-500 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">💧 Water Intake</h3>
+          
+        </div>
+      </a>
+      <a href="sleep.html" class="block">
+        <div class="bg-purple-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">🛌 Sleep</h3>
+        </div>
+      </a>
+      <a href="steps.html" class="block">
+        <div class="bg-green-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">🚶 Steps</h3>
+         
+        </div>
+      </a>
+      <a href="calories.html" class="block">
+        <div class="bg-red-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition hover:-translate-y-1 cursor-pointer">
+          <h3 class="text-lg font-semibold mb-2 text-white">🔥 Calories Burned</h3>
+          
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <!-- Progress Tracking + Health Record Section -->
+  <section class="max-w-6xl mx-auto px-6 mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="bg-white p-6 rounded-lg shadow-md" data-aos="fade-up" data-aos-duration="1000">
+      <h2 class="text-2xl font-bold mb-6 text-teal-700">Progress Tracking</h2>
+
+      <!-- Achievements -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">🏆 Achievements</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-teal-100 p-4 rounded-lg shadow">
+            <div class="text-teal-500 text-3xl mb-2">🔓</div>
+            <p class="font-semibold">First Login</p>
+            <p class="text-sm text-gray-500">   </p>
+          </div>
+          <div class="bg-teal-100 p-4 rounded-lg shadow">
+            <div class="text-teal-500 text-3xl mb-2">💪</div>
+            <p class="font-semibold">Workout Starter</p>
+            <div class="bg-gray-200 rounded-full h-2 mt-2">
+              <div class="bg-teal-500 h-2 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Progress -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4"> Weekly Progress</h3>
+        <a href="progress.html" class="block bg-teal-100 p-4 rounded-lg shadow hover:shadow-lg transition hover:-translate-y-1">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-semibold text-teal-700">View Weekly Progress</p>
+              <p class="text-sm text-gray-500">Check your workout trends</p>
+            </div>
+            <div class="text-3xl text-teal-500">➡️</div>
+          </div>
+        </a>
+        <button onclick="window.location.href='report.html'"
+          class="w-full mt-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded shadow">
+          View Full Report
+        </button>
+      </div>
+
+      <!-- Login Streak -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4"> Login Streak</h3>
+        <div class="bg-teal-100 p-4 rounded-lg shadow flex items-center space-x-3">
+          <span class="text-3xl font-bold text-teal-500">5</span>
+          <span class="text-sm">Days in a row!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md" data-aos="fade-up" data-aos-duration="1000">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-teal-700">Health Records</h2>
+        <button onclick="window.location.href='bmi.html'" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
+          Record Health
+        </button>
+      </div>
+     
+      <!-- BMI Chart -->
+      <div class="mb-8">
+        <canvas id="bmiChart" width="400" height="200"></canvas>
+      </div>
+
+      <!-- Activity Calendar -->
+  <div class="calendar-container">
+  <h3 class="text-xl font-semibold mb-4">Activity Calendar</h3>
+  <div class="flex items-center mb-4 space-x-2">
+    <select id="monthSelect" class="border rounded p-2"></select>
+    <select id="yearSelect" class="border rounded p-2"></select>
+  </div>
+  <div class="grid grid-cols-7 text-sm font-semibold text-gray-600 mb-2">
+    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+  </div>
+  <div class="grid grid-cols-7 gap-2 text-center" id="calendar"></div>
+</div>
+
+ </div>
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center">
+    <p>© 2024 GlowFit. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+ <script>
+    AOS.init();
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
+
+    function toggleDropdown() {
+      document.getElementById('dropdown').classList.toggle('hidden');
+    }
+
+    window.onload = () => {
+      // 🔒 Auth check
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // 👤 Fill dropdown data
+      document.getElementById("dropdownName").textContent = localStorage.getItem("name") || "User";
+      document.getElementById("dropdownUsername").textContent = "@" + (localStorage.getItem("username") || "user");
+      document.getElementById("dropdownEmail").textContent = localStorage.getItem("email") || "email@example.com";
+
+      // 🗓 Calendar logic
+      const monthSelect = document.getElementById('monthSelect');
+      const yearSelect = document.getElementById('yearSelect');
+      const calendar = document.getElementById('calendar');
+      let loginDays = {};
+
+fetch('http://localhost:5000/api/users/login-stats', {
+  headers: {
+    'Authorization': 'Bearer ' + token
+  }
+})
+.then(res => res.json())
+.then(data => {
+  if (Array.isArray(data.loginHistory)) {
+    loginDays = {};
+    data.loginHistory.forEach(date => {
+      loginDays[date] = true;
+    });
+
+
+//  Show First Login Achievement Date
+if (data.loginHistory.length > 0) {
+  const firstLoginDate = data.loginHistory
+    .slice()
+    .sort()[0]; // Sort ascending and get earliest
+
+  const achievementDateEl = document.querySelector(
+    '.mb-8 .text-sm.text-gray-500'
+  ); // This selects the small text under "First Login"
+  if (achievementDateEl) {
+    achievementDateEl.textContent = `Completed: ${firstLoginDate}`;
+  }
+}
+
+    // Update Login Streak visually
+    const streakEl = document.querySelector('.text-3xl.font-bold.text-teal-500'); // the big number
+    const textEl = streakEl?.nextElementSibling; // "Days in a row!"
+
+    if (streakEl && data.streak !== undefined) {
+      streakEl.textContent = data.streak;
+      if (textEl) textEl.textContent = data.streak === 1 ? 'Day in a row!' : 'Days in a row!';
+    }
+  }
+
+  updateCalendar();
+})
+
+.catch(err => {
+  console.error("Login history fetch error:", err);
+});
+
+
+      const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      months.forEach((month, i) => {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = month;
+        monthSelect.appendChild(opt);
+      });
+
+      for (let y = 2025; y <= 2050; y++) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        yearSelect.appendChild(opt);
+      }
+
+      function updateCalendar() {
+        const month = parseInt(monthSelect.value);
+        const year = parseInt(yearSelect.value);
+        calendar.innerHTML = '';
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const startDay = new Date(year, month, 1).getDay();
+        const today = new Date();
+
+        for (let i = 0; i < startDay; i++) calendar.appendChild(document.createElement('div'));
+
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(year, month, day);
+          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const box = document.createElement('div');
+          box.textContent = day;
+          box.className = 'p-2 rounded cursor-pointer transition';
+
+          if (
+            date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear()
+          ) {
+            box.classList.add('bg-yellow-300', 'font-bold');
+          } else if (loginDays[dateStr]) {
+            box.classList.add('bg-teal-500', 'text-white');
+          } else {
+            box.classList.add('bg-teal-100', 'hover:bg-teal-300');
+          }
+
+          calendar.appendChild(box);
+        }
+      }
+
+      const now = new Date();
+      monthSelect.value = now.getMonth();
+      yearSelect.value = now.getFullYear();
+      updateCalendar();
+      monthSelect.addEventListener('change', updateCalendar);
+      yearSelect.addEventListener('change', updateCalendar);
+
+      // 🏋️ Workout Progress Fetch
+fetch('http://localhost:5000/api/workout', {
+  headers: { 'Authorization': 'Bearer ' + token }
+})
+.then(res => res.json())
+.then(workouts => {
+  const workoutCount = Array.isArray(workouts) ? workouts.length : 0;
+  const progress = Math.min((workoutCount / 5) * 100, 100); // cap at 100%
+
+  const progressBar = document.querySelector(
+    '.text-xl.font-semibold.mb-4 + .grid .bg-teal-100:nth-child(2) .bg-gray-200 .bg-teal-500'
+  );
+
+  if (progressBar) {
+    progressBar.style.width = `${progress}%`;
+  }
+})
+.catch(err => {
+  console.error("Workout progress error:", err);
+});
+
+      // 📊 BMI CHART
+      const ctx = document.getElementById('bmiChart').getContext('2d');
+      fetch('http://localhost:5000/api/bmi/history', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!Array.isArray(data)) throw new Error("Unexpected BMI data format");
+
+        const labels = data.map(entry => {
+          const d = new Date(entry.createdAt);
+          return `${d.getDate()}/${d.getMonth() + 1}`;
+        });
+
+        const values = data.map(entry => entry.bmi);
+
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'BMI Over Time',
+              data: values,
+              borderColor: '#0d9488',
+              backgroundColor: 'rgba(13, 148, 136, 0.1)',
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointBackgroundColor: '#0d9488',
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: true }
+            },
+            scales: {
+              y: { beginAtZero: false }
+            }
+          }
+        });
+      })
+      .catch(err => {
+        console.error("BMI chart error:", err);
+        ctx.font = "16px Arial";
+        ctx.fillText("No BMI data available", 10, 50);
+      });
+    };
+
+
+ 
+  </script>
+
+
+</body>
+</html>  

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit | Bicep Curls</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition duration-300">
+
+  <!-- NAVBAR -->
+  <nav class="flex justify-between items-center px-6 py-4 shadow bg-white dark:bg-gray-800 sticky top-0 z-50" data-aos="fade-down" data-aos-duration="1000">
+    <h1 class="text-3xl font-extrabold text-teal-500">GlowFit</h1>
+    <div class="space-x-4">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="workout.html" class="hover:underline">Workouts</a>
+      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="text-center py-10 bg-gradient-to-r from-rose-200 to-pink-300 dark:from-gray-800 dark:to-gray-700" data-aos="fade-up" data-aos-duration="1000">
+    <h2 class="text-4xl font-bold mb-2">💪 Bicep Curls</h2>
+    <p class="text-lg">3 sets of 12-15 reps to build and tone your biceps effectively.</p>
+  </header>
+
+  <!-- LOTTIE ANIMATION (Updated) -->
+  <div class="flex justify-center py-10" data-aos="zoom-in" data-aos-duration="1000">
+    <dotlottie-player 
+      src="https://lottie.host/75f997a8-5b64-4974-9719-63912a4e3219/1wu4fLixBe.lottie" 
+      background="transparent" 
+      speed="1" 
+      style="width: 300px; height: 300px;" 
+      loop 
+      autoplay>
+    </dotlottie-player>
+  </div>
+
+  <!-- DETAILS SECTION -->
+  <section class="max-w-4xl mx-auto p-6 space-y-6" data-aos="fade-up" data-aos-duration="1000">
+    <div>
+      <h3 class="text-2xl font-semibold mb-2">Description</h3>
+      <p>Bicep curls target the front part of your upper arm and are a great isolation exercise for arm strength.</p>
+    </div>
+
+    <div>
+      <h3 class="text-2xl font-semibold mb-2">Equipment</h3>
+      <p>Use dumbbells or resistance bands for best results.</p>
+    </div>
+
+    <div>
+      <h3 class="text-2xl font-semibold mb-2">Benefits</h3>
+      <ul class="list-disc list-inside">
+        <li>Improves arm strength</li>
+        <li>Increases muscle tone</li>
+        <li>Enhances grip power</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-2xl font-semibold mb-2">Tips</h3>
+      <ul class="list-disc list-inside">
+        <li>Keep your elbows steady and close to your sides.</li>
+        <li>Use controlled motion—avoid swinging.</li>
+        <li>Exhale when lifting, inhale when lowering.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BACK BUTTON -->
+  <div class="text-center mt-8" data-aos="fade-up" data-aos-duration="1000">
+    <a href="workout.html" class="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600 transition">← Back to Workouts</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 p-6 text-center text-sm text-gray-600 dark:text-gray-400" data-aos="fade-up" data-aos-duration="1000">
+    <p>&copy; 2025 GlowFit. Stay strong and consistent!</p>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>

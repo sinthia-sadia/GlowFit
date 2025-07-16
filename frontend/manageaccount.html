@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Account - GlowFit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f0f4f8, #e0e7ff);
+    }
+    .account-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .account-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    .use-another:hover {
+      background-color: #dbeafe;
+      border-color: #2563eb;
+      color: #1e3a8a;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-6 text-gray-900">
+
+  <h1 class="text-4xl font-bold text-center mb-10 text-blue-800">Manage Your Account</h1>
+
+  <div id="accountList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+    <!-- Dynamic user cards will be injected here -->
+  </div>
+
+  <script>
+    function redirectToLogin() {
+      window.location.href = 'login.html';
+    }
+
+    async function quickLogin(email) {
+      const usedAccounts = JSON.parse(localStorage.getItem('usedAccounts') || '[]');
+      const user = usedAccounts.find(u => u.email === email);
+      const password = prompt(`Enter password for ${user.email}:`);
+
+      if (!password) return;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: user.email, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("name", data.name);
+          localStorage.setItem("email", data.email);
+          window.location.href = "dashboard.html";
+        } else {
+          alert(data.error || "Login failed.");
+        }
+      } catch (err) {
+        alert("Error connecting to server.");
+      }
+    }
+
+    function loadAccounts() {
+      const container = document.getElementById('accountList');
+      const usedAccounts = JSON.parse(localStorage.getItem('usedAccounts') || '[]');
+
+      usedAccounts.forEach(user => {
+        const card = document.createElement('div');
+        card.className = 'account-card bg-white rounded-xl p-6 shadow-md text-center cursor-pointer';
+        card.onclick = () => quickLogin(user.email);
+
+        card.innerHTML = `
+          <img src="${user.avatar || 'https://via.placeholder.com/80'}" alt="Profile" class="mx-auto rounded-full mb-4">
+          <h2 class="text-lg font-semibold">${user.name}</h2>
+          <p class="text-sm text-gray-500">@${user.username}</p>
+          <p class="text-sm text-gray-500">${user.email}</p>
+        `;
+
+        container.appendChild(card);
+      });
+
+      const useAnother = document.createElement('div');
+      useAnother.className = 'use-another bg-white border-2 border-blue-300 rounded-xl p-6 text-center shadow-md cursor-pointer transition';
+      useAnother.onclick = redirectToLogin;
+
+      useAnother.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-full">
+          <svg class="w-10 h-10 text-blue-500 mb-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <h2 class="text-lg font-semibold">Use Another Account</h2>
+          <p class="text-sm text-gray-600">Log in with a different user</p>
+        </div>
+      `;
+
+      container.appendChild(useAnother);
+    }
+
+    loadAccounts();
+  </script>
+
+</body>
+</html>

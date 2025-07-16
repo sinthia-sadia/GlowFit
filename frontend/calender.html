@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monthly Calendar - GlowFit</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <style>
+    .day-cell {
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      /* Default text colors */
+      color: inherit;
+    }
+    .day-cell:hover {
+      background-color: #c7f3f0; /* Tailwind's teal-100 */
+    }
+    .today {
+      background-color: #14b8a6; /* Tailwind teal-500 */
+      color: white !important;
+      font-weight: 700;
+      border-radius: 0.5rem;
+    }
+    /* Fridays in red */
+    .friday {
+      color: #ef4444; /* Tailwind red-500 */
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans flex flex-col min-h-screen">
+
+  <!-- Header with prev/next buttons and month/year -->
+  <header class="bg-white dark:bg-gray-800 shadow p-4 flex items-center justify-between max-w-md mx-auto rounded-md mt-6">
+    <button id="prevMonth" class="text-teal-600 font-bold px-3 py-1 rounded hover:bg-teal-100 dark:hover:bg-teal-700 transition">&lt;</button>
+    <h1 id="monthYear" class="text-xl font-semibold text-center flex-grow select-none"></h1>
+    <button id="nextMonth" class="text-teal-600 font-bold px-3 py-1 rounded hover:bg-teal-100 dark:hover:bg-teal-700 transition">&gt;</button>
+  </header>
+
+  <!-- Weekday names -->
+  <main class="max-w-md mx-auto mt-4 bg-white dark:bg-gray-800 rounded-md shadow p-4 flex-grow">
+    <div class="grid grid-cols-7 gap-1 text-center text-gray-500 dark:text-gray-400 font-semibold select-none text-xs sm:text-sm">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div class="text-red-500 font-bold">Fri</div><div>Sat</div>
+    </div>
+
+    <!-- Calendar grid -->
+    <div id="calendarGrid" class="grid grid-cols-7 gap-1 mt-2 text-gray-800 dark:text-gray-200 text-sm sm:text-base"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 mb-6 text-center text-sm text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+    <p>&copy; 2025 <span class="font-semibold text-teal-500">GlowFit</span></p>
+  </footer>
+
+  <script>
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthYearTitle = document.getElementById('monthYear');
+    const prevBtn = document.getElementById('prevMonth');
+    const nextBtn = document.getElementById('nextMonth');
+
+    let currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth();
+
+    function daysInMonth(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    function firstDayOfWeek(year, month) {
+      return new Date(year, month, 1).getDay();
+    }
+
+    function renderCalendar(year, month) {
+      calendarGrid.innerHTML = '';
+
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      monthYearTitle.textContent = `${monthNames[month]} ${year}`;
+
+      const totalDays = daysInMonth(year, month);
+      const firstDay = firstDayOfWeek(year, month);
+
+      // Add empty cells before first day
+      for(let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        calendarGrid.appendChild(emptyCell);
+      }
+
+      const today = new Date();
+      const isCurrentMonth = (year === today.getFullYear() && month === today.getMonth());
+
+      // Add day cells
+      for(let day = 1; day <= totalDays; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.classList.add('day-cell');
+
+        // Check if current day is today
+        if(isCurrentMonth && day === today.getDate()) {
+          dayCell.classList.add('today');
+        }
+
+        // Determine day of week for this date
+        const dateObj = new Date(year, month, day);
+        const dayOfWeek = dateObj.getDay();
+
+        // If Friday (5), add red text class
+        if(dayOfWeek === 5) {
+          dayCell.classList.add('friday');
+        }
+
+        dayCell.textContent = day;
+        calendarGrid.appendChild(dayCell);
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentMonth--;
+      if(currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderCalendar(currentYear, currentMonth);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentMonth++;
+      if(currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderCalendar(currentYear, currentMonth);
+    });
+
+    renderCalendar(currentYear, currentMonth);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit | Report Download</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      background: #e6fffa;
+      transition: background 0.5s ease;
+    }
+    html.dark body {
+      background: #d4e3e2;
+    }
+  </style>
+</head>
+<body class="text-gray-900 dark:text-white transition duration-300">
+
+  <header class="bg-teal-600 dark:bg-gray-800 text-white p-6 text-center shadow-md">
+    <h1 class="text-3xl font-extrabold">📄 Fitness Report Download</h1>
+    <p class="mt-2 text-teal-100 dark:text-teal-300 max-w-xl mx-auto">
+      Select report type and download your progress report in PDF format.
+    </p>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 space-y-10">
+    <div class="flex justify-center space-x-4">
+      <button id="weeklyBtn" class="bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-900 text-white font-semibold px-6 py-3 rounded-md transition">
+        Weekly Report
+      </button>
+      <button id="monthlyBtn" class="bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-900 text-white font-semibold px-6 py-3 rounded-md transition">
+        Monthly Report
+      </button>
+    </div>
+
+    <section id="reportPreview" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md max-w-3xl mx-auto">
+      <h2 id="previewTitle" class="text-xl font-semibold mb-4 text-teal-600 dark:text-teal-400">Weekly Summary:</h2>
+      <ul id="previewList" class="space-y-3 text-gray-700 dark:text-gray-300 text-sm">
+        <li>Workout Days: 5/7 — Great consistency! Aim for 6 days next week.</li>
+        <li>Calories Burned: 2100 kcal — Keep pushing to burn more calories for fat loss.</li>
+        <li>Sleep Avg: 7h 30m — Rest well to maximize muscle growth and energy.</li>
+      </ul>
+    </section>
+
+    <div class="text-center">
+      <button id="downloadBtn" class="bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-900 text-white font-semibold px-7 py-3 rounded-md transition">
+        ⬇ Download Report (PDF)
+      </button>
+    </div>
+  </main>
+
+  <footer class="bg-teal-600 dark:bg-gray-800 text-white text-center py-6 mt-16 shadow-inner">
+    <p>&copy; 2024 GlowFit. All rights reserved.</p>
+  </footer>
+
+ <script>
+  const { jsPDF } = window.jspdf;
+
+  let currentReport = "weekly";
+  let currentData = {
+    workoutDays: 0,
+    calories: 0,
+    sleep: 0
+  };
+
+  const recommendations = {
+    weekly: [
+      "Increase your workout days gradually.",
+      "Maintain a balanced diet for better results.",
+      "Keep hydrating consistently throughout the day.",
+      "Ensure 7-8 hours of sleep for recovery."
+    ],
+    monthly: [
+      "Maintain or increase workout frequency.",
+      "Focus on a nutrient-rich diet to fuel workouts.",
+      "Stay hydrated, especially during intense sessions.",
+      "Prioritize sleep for muscle repair and energy."
+    ]
+  };
+
+  function updatePreview(type) {
+    currentReport = type;
+
+    // Set dummy data
+    currentData = {
+      workoutDays: type === "weekly" ? 5 : 22,
+      calories: type === "weekly" ? 2100 : 9200,
+      sleep: type === "weekly" ? 7.5 : 7.2
+    };
+
+    const previewTitle = document.getElementById("previewTitle");
+    const previewList = document.getElementById("previewList");
+
+    previewTitle.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} Summary:`;
+    previewList.innerHTML = "";
+
+    const summaryLines = [
+      `Workout Days: ${currentData.workoutDays}`,
+      `Calories Burned: ${currentData.calories} kcal`,
+      `Sleep Hours Average: ${currentData.sleep}h`
+    ];
+
+    summaryLines.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      previewList.appendChild(li);
+    });
+  }
+
+  function generatePDF() {
+    const doc = new jsPDF();
+    const type = currentReport;
+    const title = `${type.charAt(0).toUpperCase() + type.slice(1)} Fitness Report`;
+
+    doc.setFontSize(18);
+    doc.setTextColor("#14b8a6");
+    doc.text(title, 20, 20);
+
+    doc.setFontSize(14);
+    doc.setTextColor("#0d9488");
+    doc.text("Summary:", 20, 35);
+
+    const summaryLines = [
+      `- Workout Days: ${currentData.workoutDays}`,
+      `- Calories Burned: ${currentData.calories} kcal`,
+      `- Sleep Hours Average: ${currentData.sleep}h`
+    ];
+
+    doc.setFontSize(12);
+    doc.setTextColor("#000");
+    let y = 43;
+    summaryLines.forEach(line => {
+      doc.text(line, 20, y);
+      y += 8;
+    });
+
+    y += 5;
+    doc.setFontSize(14);
+    doc.setTextColor("#0d9488");
+    doc.text("Recommendations:", 20, y);
+    y += 8;
+
+    doc.setFontSize(12);
+    doc.setTextColor("#000");
+    recommendations[type].forEach(line => {
+      doc.text(`- ${line}`, 20, y);
+      y += 8;
+    });
+
+    y += 10;
+    doc.setTextColor("#14b8a6");
+    doc.text("\"Consistency is key. Keep up the great work!\"", 20, y);
+
+    doc.save(`GlowFit_${type}_Report.pdf`);
+  }
+
+  document.getElementById("weeklyBtn").addEventListener("click", () => updatePreview("weekly"));
+  document.getElementById("monthlyBtn").addEventListener("click", () => updatePreview("monthly"));
+  document.getElementById("downloadBtn").addEventListener("click", generatePDF);
+
+  // Load default
+  updatePreview("weekly");
+</script>
+
+</body>
+</html>

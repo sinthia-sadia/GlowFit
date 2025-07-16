@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit | Lunges</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+
+  <!-- NAVBAR -->
+  <nav class="flex justify-between items-center px-6 py-4 shadow bg-white dark:bg-gray-800 sticky top-0 z-50">
+    <h1 class="text-3xl font-extrabold text-teal-500">GlowFit</h1>
+    <div class="space-x-4">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="workout.html" class="text-teal-500 font-semibold underline">Workouts</a>
+      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="text-center py-10 bg-gradient-to-r from-green-200 to-emerald-300 dark:from-gray-800 dark:to-gray-700">
+    <h2 class="text-4xl font-bold mb-2">Lunges</h2>
+    <p class="text-lg">Strengthen your legs and improve balance with lunges.</p>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-6">
+
+     <!-- Animation Replacing Video -->
+      <dotlottie-player
+        src="https://lottie.host/a8e7c575-1533-4ce3-8063-468971161d1c/VlJfP4eZGt.lottie"
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px; margin: auto;"
+        loop
+        autoplay>
+      </dotlottie-player>
+    </section>  
+
+    <!-- Instructions -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">How to Do Lunges</h3>
+      <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-2">
+        <li>Stand upright with feet hip-width apart.</li>
+        <li>Step forward with one leg and lower your hips until both knees are bent at about 90 degrees.</li>
+        <li>Ensure your front knee is directly above your ankle and the back knee hovers just above the floor.</li>
+        <li>Push back to the starting position and repeat with the other leg.</li>
+      </ol>
+    </section>
+
+    <!-- Reps -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">Repetitions</h3>
+      <p class="text-gray-700 dark:text-gray-300">Perform 10 reps per leg. Add dumbbells for extra resistance if needed.</p>
+    </section>
+
+    <!-- Benefits -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">Benefits</h3>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
+        <li>Strengthens quads, hamstrings, and glutes</li>
+        <li>Enhances coordination and stability</li>
+        <li>Improves core strength and balance</li>
+      </ul>
+    </section>
+
+    <!-- Back Button -->
+    <div class="text-center mt-10">
+      <a href="strength.html" class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-full text-xl shadow hover:opacity-90 transition">
+        Back to Strength Circuit
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center mt-12 space-y-2">
+    <p>© 2025 GlowFit.</p>
+    <p>
+      Built by 
+      <a href="https://www.facebook.com/sadia.alam.999866" class="text-white font-semibold hover:underline" target="_blank">Sadia Alam</a> and 
+      <a href="https://www.facebook.com/fahmida.afrin.790592" class="text-white font-semibold hover:underline" target="_blank">Fahmida Afrin</a>
+    </p>
+  </footer>
+
+</body>
+</html>

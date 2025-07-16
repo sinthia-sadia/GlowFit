@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit | Push-Ups</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lottie Player for .lottie file -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-white text-gray-900">
+
+  <!-- NAVBAR -->
+  <nav class="flex justify-between items-center px-6 py-4 shadow-md bg-white sticky top-0 z-50">
+    <h1 class="text-3xl font-extrabold text-teal-500">GlowFit</h1>
+    <div class="space-x-4">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="workout.html" class="text-teal-500 font-semibold underline">Workouts</a>
+      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="text-center py-10 bg-gradient-to-r from-pink-200 to-purple-300">
+    <h2 class="text-4xl font-bold mb-2">Push-Ups</h2>
+    <p class="text-lg">Strengthen your upper body and core with this classic exercise.</p>
+  </header>
+
+  <!-- LOTTIE ANIMATION -->
+  <div class="flex justify-center py-6 bg-white">
+    <dotlottie-player 
+      src="https://lottie.host/78f47261-1a5a-4b7d-8515-f12ac7d7e133/Ioi1pNZE5P.lottie" 
+      background="transparent" 
+      speed="1" 
+      style="width: 300px; height: 300px" 
+      loop 
+      autoplay>
+    </dotlottie-player>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+
+    <!-- Instructions -->
+    <section class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">How to Perform</h3>
+      <ol class="list-decimal list-inside text-gray-700 space-y-2">
+        <li>Start in a plank position with your hands shoulder-width apart.</li>
+        <li>Maintain a straight body line from head to heels.</li>
+        <li>Lower yourself until your chest nearly touches the floor.</li>
+        <li>Push through your palms to return to the starting position.</li>
+      </ol>
+    </section>
+
+    <!-- Reps and Sets -->
+    <section class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">Recommended Routine</h3>
+      <p class="text-gray-700">Do 3 sets of 12 reps. Take 30–60 seconds rest between sets.</p>
+    </section>
+
+    <!-- Equipment -->
+    <section class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">Equipment Needed</h3>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>No equipment needed</li>
+        <li>Optional: Yoga mat for comfort</li>
+      </ul>
+    </section>
+
+    <!-- Benefits -->
+    <section class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">Benefits</h3>
+      <ul class="list-disc list-inside text-gray-700">
+        <li>Targets chest, shoulders, and triceps</li>
+        <li>Improves core strength</li>
+        <li>Boosts muscular endurance</li>
+        <li>Can be done anywhere, anytime</li>
+      </ul>
+    </section>
+
+    <!-- Back Button -->
+    <div class="text-center">
+      <a href="strength.html" class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-8 rounded-full text-xl shadow hover:opacity-90 transition">
+        Back to Strength
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-teal-600 text-white p-6 text-center mt-12 space-y-2">
+    <p>© 2025 GlowFit.</p>
+    <p>
+      Built by 
+      <a href="https://www.facebook.com/sadia.alam.999866" class="text-white font-semibold hover:underline" target="_blank">Sadia Alam</a> and 
+      <a href="https://www.facebook.com/fahmida.afrin.790592" class="text-white font-semibold hover:underline" target="_blank">Fahmida Afrin</a>
+    </p>
+  </footer>
+
+</body>
+</html>

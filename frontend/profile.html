@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlowFit | Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-3xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="hover:text-teal-600">Dashboard</a></li>
+      <li><a href="profile.html" class="text-teal-600 font-semibold">Profile</a></li>
+      <li><a href="workout.html" class="hover:text-teal-600">Workout</a></li>
+      <li><a href="about.html" class="hover:text-teal-600">About Us</a></li>
+      <li class="relative">
+        <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+          <div class="flex items-center space-x-4 p-4">
+            <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+            <div>
+              <p id="dropdownName" class="font-bold">Sadia Alam</p>
+              <p id="dropdownUsername" class="text-sm text-gray-500">@sadia123</p>
+              <p id="dropdownEmail" class="text-sm text-gray-500">sadia@example.com</p>
+            </div>
+          </div>
+          <hr class="border-gray-300" />
+          <div class="p-4 space-y-2">
+            <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+            <a href="#" onclick="openEditModal()" class="block text-teal-600 hover:underline">Edit Profile</a>
+            <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Profile Information -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="bg-white p-8 rounded-xl shadow-md">
+      <div class="flex items-center space-x-6">
+        <div><img src="Image/arm.jpg" alt="profile" class="w-24 h-24 rounded-full bg-gray-200"></div>
+        <div>
+          <h2 id="displayName" class="text-2xl font-bold text-teal-600">Sadia Alam</h2>
+          <p id="displayUsername" class="text-gray-600">@sadia123</p>
+          <p id="displayEmail" class="text-gray-600">sadia@example.com</p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Age</h3>
+          <p id="displayAge" class="text-gray-500">24</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Height</h3>
+          <p id="displayHeight" class="text-gray-500">165 cm</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Weight</h3>
+          <p id="displayWeight" class="text-gray-500">60 kg</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Fitness Goal</h3>
+          <p id="displayGoal" class="text-gray-500">Maintain Weight</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 mb-1">Activity Level</h3>
+          <p id="displayActivity" class="text-gray-500">Moderately Active</p>
+        </div>
+      </div>
+
+      <!-- Edit Profile Button-->
+      <div class="mt-8 text-right">
+        <button onclick="openEditModal()" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700 transition">
+          Edit Profile
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 relative">
+      <button onclick="closeEditModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
+      <h2 class="text-2xl font-bold text-teal-500 mb-4">Edit Profile</h2>
+      <form id="editProfileForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block mb-1 font-medium">Full Name</label>
+          <input id="editName" type="text" class="w-full border border-gray-300 p-2 rounded" value="Sadia Alam" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Username</label>
+          <input id="editUsername" type="text" class="w-full border border-gray-300 p-2 rounded" value="sadia123" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Email</label>
+          <input id="editEmail" type="email" class="w-full border border-gray-300 p-2 rounded" value="sadia@example.com" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Age</label>
+          <input id="editAge" type="number" class="w-full border border-gray-300 p-2 rounded" value="24" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Height (cm)</label>
+          <input id="editHeight" type="number" class="w-full border border-gray-300 p-2 rounded" value="165" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Weight (kg)</label>
+          <input id="editWeight" type="number" class="w-full border border-gray-300 p-2 rounded" value="60" />
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Fitness Goal</label>
+          <select id="editGoal" class="w-full border border-gray-300 p-2 rounded">
+            <option>Maintain Weight</option>
+            <option>Lose Weight</option>
+            <option>Gain Muscle</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 font-medium">Activity Level</label>
+          <select id="editActivity" class="w-full border border-gray-300 p-2 rounded">
+            <option>Moderately Active</option>
+            <option>Sedentary</option>
+            <option>Very Active</option>
+          </select>
+        </div>
+        <div class="col-span-2 text-right">
+          <button type="submit" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center">
+    <p>© 2024 GlowFit. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+
+  // 🔹 Load user profile on page load
+  window.onload = async function () {
+    try {
+      const res = await fetch("http://localhost:5000/api/users/profile", {
+        method: "GET",
+        headers,
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to fetch profile");
+
+      // Populate fields
+      document.getElementById("displayName").textContent = data.name || "";
+      document.getElementById("displayUsername").textContent = "@" + (data.username || "");
+      document.getElementById("displayEmail").textContent = data.email || "";
+      document.getElementById("displayAge").textContent = data.age || "";
+      document.getElementById("displayHeight").textContent = (data.height || "") + " cm";
+      document.getElementById("displayWeight").textContent = (data.weight || "") + " kg";
+      document.getElementById("displayGoal").textContent = data.goal || "";
+      document.getElementById("displayActivity").textContent = data.activity || "";
+
+      // Set dropdown
+      document.getElementById("dropdownName").textContent = data.name || "";
+      document.getElementById("dropdownUsername").textContent = "@" + (data.username || "");
+      document.getElementById("dropdownEmail").textContent = data.email || "";
+
+      // Pre-fill form
+      document.getElementById("editName").value = data.name || "";
+      document.getElementById("editUsername").value = data.username || "";
+      document.getElementById("editEmail").value = data.email || "";
+      document.getElementById("editAge").value = data.age || "";
+      document.getElementById("editHeight").value = data.height || "";
+      document.getElementById("editWeight").value = data.weight || "";
+      document.getElementById("editGoal").value = data.goal || "Maintain Weight";
+      document.getElementById("editActivity").value = data.activity || "Moderately Active";
+    } catch (err) {
+      console.error(err);
+      alert("Error loading profile.");
+    }
+  };
+
+  // 🔹 Handle Edit Profile submit
+  document.getElementById("editProfileForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const updatedData = {
+      name: document.getElementById("editName").value,
+      username: document.getElementById("editUsername").value,
+      email: document.getElementById("editEmail").value,
+      age: document.getElementById("editAge").value,
+      height: document.getElementById("editHeight").value,
+      weight: document.getElementById("editWeight").value,
+      goal: document.getElementById("editGoal").value,
+      activity: document.getElementById("editActivity").value,
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/profile", {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(updatedData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update");
+
+      // Store updated values in localStorage
+localStorage.setItem("name", updatedData.name);
+localStorage.setItem("username", updatedData.username);
+localStorage.setItem("email", updatedData.email);
+
+alert("Profile updated successfully!");
+closeEditModal();
+window.location.reload();
+
+    } catch (err) {
+      console.error(err);
+      alert("Error updating profile.");
+    }
+  });
+
+  function toggleDropdown() {
+    document.getElementById("dropdown").classList.toggle("hidden");
+  }
+
+  function openEditModal() {
+    document.getElementById("editProfileModal").classList.remove("hidden");
+  }
+
+  function closeEditModal() {
+    document.getElementById("editProfileModal").classList.add("hidden");
+  }
+
+ function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("name");
+  localStorage.removeItem("email");
+  localStorage.removeItem("username");
+  window.location.href = "index.html";
+  alert("Logged out successfully!");
+}
+
+</script>
+
+
+</body>
+</html>

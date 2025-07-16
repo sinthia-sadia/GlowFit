@@ -1,0 +1,93 @@
+html {
+    scroll-behavior: smooth;
+  }
+  
+@keyframes float {
+    0%, 100% {
+transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+.span_footer{
+    color: blue;
+    font-weight: bold;
+  }
+  .home-ani{
+    display: flex;
+    justify-content: center;
+  }
+
+  @keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  display: inline-flex;
+  animation: scroll 25s linear infinite;
+}
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/*Dashboard CSS Design*/
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.achievement-icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  transition: width 0.3s ease;
+}
+
+.streak-display {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.streak-number {
+  color: #f59e0b;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day {
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.active-day {
+  background: #3b82f6;
+  color: white;
+}
+
+

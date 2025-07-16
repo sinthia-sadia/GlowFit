@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback | GlowFit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-3xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="hover:text-teal-600">Dashboard</a></li>
+      <li><a href="profile.html" class="hover:text-teal-600">Profile</a></li>
+      <li><a href="workout.html" class="hover:text-teal-600">Workout</a></li>
+      <li><a href="about.html" class="hover:text-teal-600">About Us</a></li>
+<li class="relative">
+  <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+  <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+    <div class="flex items-center space-x-4 p-4">
+      <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+      <div>
+        <p id="dropdownName" class="font-bold"></p>
+        <p id="dropdownUsername" class="text-sm text-gray-500"></p>
+        <p id="dropdownEmail" class="text-sm text-gray-500"></p>
+      </div>
+    </div>
+    <hr class="border-gray-300" />
+    <div class="p-4 space-y-2">
+      <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+      <a href="profile.html" class="block text-teal-600 hover:underline">Edit Profile</a>
+      <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+    </div>
+  </div>
+</li>
+
+    </ul>
+  </nav>
+
+  <!-- Feedback Form -->
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <section class="bg-white rounded-xl shadow-md p-8 mb-12">
+      <h2 class="text-3xl font-bold text-teal-600 mb-6 text-center">We’d Love Your Feedback</h2>
+      <form id="feedbackForm" class="space-y-6">
+        <div>
+          <label for="name" class="block font-medium mb-1">Name</label>
+          <input type="text" id="name" name="name" readonly class="w-full border border-gray-300 rounded px-4 py-2 bg-gray-100 text-gray-500 cursor-not-allowed">
+        </div>
+
+        <div>
+          <label for="email" class="block font-medium mb-1">Email</label>
+          <input type="email" id="email" name="email" readonly class="w-full border border-gray-300 rounded px-4 py-2 bg-gray-100 text-gray-500 cursor-not-allowed">
+        </div>
+
+        <div>
+          <label for="message" class="block font-medium mb-1">Message</label>
+          <textarea id="message" name="message" rows="5" required class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"></textarea>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600 transition">
+            Submit Feedback
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Feedback Display Section -->
+    <section class="bg-white rounded-xl shadow-md p-8">
+      <h2 class="text-2xl font-bold text-center text-teal-600 mb-6">What Others Are Saying</h2>
+      <div id="feedbackList" class="space-y-6">
+        <!-- Feedback cards will appear here -->
+      </div>
+    </section>
+  </main>
+
+  
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center mt-12 space-y-2">
+    <p>© 2025 GlowFit. All rights reserved.</p>
+    <a href="about.html" class="underline hover:text-gray-200">About Us</a>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const token = localStorage.getItem("token");
+if (!token) {
+  window.location.href = "login.html";
+}
+
+
+  // Modal toggle
+ function toggleDropdown() {
+  document.getElementById("dropdown").classList.toggle("hidden");
+}
+const name = localStorage.getItem("name");
+const email = localStorage.getItem("email");
+
+// Fill dropdown user data
+document.getElementById("dropdownName").textContent = name || "User";
+document.getElementById("dropdownUsername").textContent = "@user";
+document.getElementById("dropdownEmail").textContent = email || "";
+
+// Fill feedback form
+document.getElementById("name").value = name;
+document.getElementById("email").value = email;
+
+
+  // Logout function
+  function logout() {
+    localStorage.clear();
+    alert("You have been logged out.");
+    window.location.href = "index.html";
+  }
+
+  // DOM Ready
+  window.addEventListener("DOMContentLoaded", () => {
+    // Autofill user info
+    document.getElementById("name").value = name;
+    document.getElementById("email").value = email;
+
+    // Load existing feedbacks
+    loadFeedbacks();
+
+    // Submit handler
+    const form = document.getElementById("feedbackForm");
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const message = document.getElementById("message").value;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/feedback/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert("Thank you for your feedback!");
+          form.reset();
+          loadFeedbacks();
+        } else {
+          alert("Something went wrong: " + (data.error || "Unknown error"));
+        }
+      } catch (err) {
+        alert("Failed to send feedback. Try again later.");
+        console.error(err);
+      }
+    });
+  });
+
+  // Load feedbacks from server
+  async function loadFeedbacks() {
+    const feedbackList = document.getElementById("feedbackList");
+    try {
+      const res = await fetch("http://localhost:5000/api/feedback/recent");
+      const feedbacks = await res.json();
+      feedbackList.innerHTML = "";
+
+      feedbacks.forEach(fb => {
+        const card = document.createElement("div");
+        card.className = "bg-gray-100 p-4 rounded shadow";
+        card.innerHTML = `
+          <p class="text-lg italic text-gray-800">"${fb.message}"</p>
+          <p class="mt-2 text-sm text-gray-600">- ${fb.name} (${fb.email})</p>
+        `;
+        feedbackList.appendChild(card);
+      });
+    } catch (err) {
+      feedbackList.innerHTML = "<p class='text-red-500'>Failed to load feedbacks. Try again later.</p>";
+      console.error(err);
+    }
+  }
+</script>
+
+</body>
+</html>

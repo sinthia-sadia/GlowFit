@@ -1,0 +1,131 @@
+<!-- Save as signup.html and open with Live Server -->
+<!DOCTYPE html>
+<html lang="en" class="transition duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366F1',
+            accent: '#0EA5E9',
+            darkbg: '#0f172a'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen flex items-center justify-center px-4 bg-white dark:bg-darkbg transition duration-500">
+
+  <div class="absolute inset-0 bg-gradient-to-br from-white/60 via-sky-100/50 to-indigo-100/40 dark:from-slate-900/70 dark:via-slate-800/70 dark:to-slate-900/80 z-0"></div>
+
+  <button id="toggleDark" class="absolute top-4 right-4 bg-white dark:bg-slate-800 text-gray-800 dark:text-white p-2 rounded-full shadow-md transition">
+    🌓
+  </button>
+
+  <div id="signupBox" class="bg-white dark:bg-gray-900 shadow-2xl rounded-2xl p-8 w-full max-w-md z-10">
+    <div class="mb-6 text-center">
+      <h1 class="text-3xl font-bold text-green-600 dark:text-green-400">Join <span class="text-blue-600 dark:text-blue-400">GlowFit</span></h1>
+      <p class="text-gray-500 dark:text-gray-300 text-sm mt-1">Create your account to get started</p>
+    </div>
+
+    <form id="signupForm" class="space-y-5">
+      <input type="text" id="name" required placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-white"/>
+      <input type="email" id="email" required placeholder="Email" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-white"/>
+      <input type="text" id="username" required placeholder="Username" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-white"/>
+      <input type="password" id="password" required placeholder="Password" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-white"/>
+      <input type="password" id="confirmPassword" required placeholder="Confirm Password" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:text-white"/>
+      <button type="submit" class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 rounded-lg hover:from-green-500 hover:to-blue-600 font-semibold transition duration-200">Create Account</button>
+    </form>
+
+    <p class="text-center text-gray-600 dark:text-gray-300 text-sm mt-5">
+      Already have an account?
+      <a href="login.html" class="text-blue-500 hover:underline font-medium">Login</a>
+    </p>
+  </div>
+
+  <div id="successBox" class="hidden bg-white dark:bg-slate-800 text-center shadow-2xl rounded-2xl p-10 max-w-md w-full z-10 transition duration-300">
+    <h1 class="text-4xl font-bold text-primary dark:text-indigo-300 mb-4">🎉 Success!</h1>
+    <p class="text-gray-700 dark:text-gray-200 text-lg mb-6">Your account has been created successfully.</p>
+    <a href="login.html" class="inline-block bg-gradient-to-r from-primary to-accent text-white px-6 py-2 rounded-lg font-semibold hover:from-indigo-600 hover:to-sky-600 transition duration-200">Go to Login</a>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleDark');
+    const html = document.documentElement;
+    const signupForm = document.getElementById("signupForm");
+    const signupBox = document.getElementById("signupBox");
+    const successBox = document.getElementById("successBox");
+
+    if (localStorage.getItem('theme') === 'dark') {
+      html.classList.add('dark');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    signupForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) return alert("Passwords do not match.");
+
+      try {
+        const res = await fetch("http://localhost:5000/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, username, email, password })
+        });
+
+        const data = await res.json();
+if (res.ok) {
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("name", data.name);
+  localStorage.setItem("username", data.username);
+  localStorage.setItem("email", data.email);
+
+  const usedAccounts = JSON.parse(localStorage.getItem("usedAccounts") || "[]");
+  if (!usedAccounts.some(user => user.email === data.email)) {
+    usedAccounts.push({
+      name: data.name,
+      email: data.email,
+      username: data.username,
+      avatar: "https://via.placeholder.com/80"
+    });
+    localStorage.setItem("usedAccounts", JSON.stringify(usedAccounts));
+  }
+
+  signupBox.classList.add('hidden');
+  successBox.classList.remove('hidden');
+}
+else {
+          alert(data.error || "Signup failed.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error connecting to server.");
+      }
+    });
+  </script>
+</body>
+</html>

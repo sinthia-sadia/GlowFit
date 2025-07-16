@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit | Workout Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <script>
+    function markCompleted(button) {
+      button.textContent = "Completed ✅";
+      button.disabled = true;
+      button.classList.add('bg-green-500', 'cursor-default');
+      button.classList.remove('hover:bg-teal-600');
+    }
+
+    function handleWorkoutTypeChange(select) {
+      const workout = select.value.toLowerCase();
+      const pages = {
+        yoga: 'yoga.html',
+        cardio: 'cardio.html',
+        strength: 'strength.html',
+        hiit: 'hiit.html',
+        stretching: 'stretching.html',
+        belly: 'belly.html',
+        butt: 'butt.html',
+        thigh: 'thigh.html',
+        arm: 'arm.html',
+        breast: 'breast.html'
+      };
+      if (pages[workout]) {
+        window.location.href = pages[workout];
+      }
+    }
+  </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition duration-300">
+
+<!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-3xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="hover:text-teal-600">Dashboard</a></li>
+      <li><a href="profile.html" class="hover:text-teal-600">Profile</a></li>
+      <li><a href="workout.html" class="text-teal-600 font-semibold">Workout</a></li>
+      <li><a href="about.html" class="hover:text-teal-600">About Us</a></li>
+      <li class="relative">
+        <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+          <div class="flex items-center space-x-4 p-4">
+            <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+            <div>
+            <p id="dropdownName" class="font-bold"></p>
+            <p id="dropdownUsername" class="text-sm text-gray-500"></p>
+            <p id="dropdownEmail" class="text-sm text-gray-500"></p>
+
+            </div>
+          </div>
+          <hr class="border-gray-300" />
+          <div class="p-4 space-y-2">
+            <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+            <a href="profile.html#edit" class="block text-teal-600 hover:underline">Edit Profile</a>
+            <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <!-- HEADER -->
+  <section class="text-center py-10 px-6 bg-gradient-to-br from-purple-300 to-pink-400 dark:from-gray-800 dark:to-gray-700">
+    <h2 class="text-4xl font-bold mb-2">🏋️ Workout Planner</h2>
+    <p class="text-lg">Select workout type and track your progress</p>
+  </section>
+
+  <!-- LOTTIE + SELECT COMBO -->
+  <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="flex justify-center md:w-1/2">
+      <dotlottie-player 
+        src="https://lottie.host/0b250524-d0a3-4286-b7c9-e182ada7cd73/Vjfy2B4P1C.lottie" 
+        background="transparent" 
+        speed="1" 
+        style="width: 100%; max-width: 300px; height: 300px" 
+        loop autoplay>
+      </dotlottie-player>
+    </div>
+    <div class="w-full md:w-1/2">
+      <label for="workoutType" class="block text-lg font-semibold mb-2">Select Workout Type:</label>
+      <select id="workoutType" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-white" onchange="handleWorkoutTypeChange(this)">
+        <option value="yoga">Yoga</option>
+        <option value="strength">Strength</option>
+        <option value="hiit">HIIT</option>
+        <option value="stretching">Stretching</option>
+        <option value="belly">Belly</option>
+        <option value="butt">Butt</option>
+        <option value="thigh">Thigh</option>
+        <option value="arm">Arm</option>
+        <option value="breast">Breast</option>
+      </select>
+    </div>
+  </div>
+
+<!-- Workout Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 pb-12">
+
+  <!-- Yoga (clickable card) -->
+<a href="yoga.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 cursor-pointer" data-aos="zoom-in">
+  <h3 class="text-lg font-semibold mb-2">🧘 Yoga Flow</h3>
+  <p class="text-2xl font-bold text-teal-500">30 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~120 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Yoga', 30, 120)" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Strength (clickable card) -->
+<a href="strength.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 cursor-pointer" data-aos="zoom-in">
+  <h3 class="text-lg font-semibold mb-2">💪 Strength Circuit</h3>
+  <p class="text-2xl font-bold text-indigo-500">40 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~300 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Strength', 40, 300)" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- HIIT (clickable card) -->
+<a href="hiit.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 cursor-pointer" data-aos="zoom-in">
+  <h3 class="text-lg font-semibold mb-2">⚡ HIIT Burn</h3>
+  <p class="text-2xl font-bold text-red-500">15 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~200 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'HIIT', 15, 200)" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+ <!-- 🧍 Stretching -->
+<a href="stretching.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-green-500 cursor-pointer">
+  <h3 class="text-lg font-semibold mb-2">🧍 Full Body Stretch</h3>
+  <p class="text-2xl font-bold text-green-500">10 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~60 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Stretching', 10, 60);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Belly -->
+<a href="belly.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-rose-500 cursor-pointer">
+  <h3 class="text-xl font-semibold mb-2">🔥 Belly Fat Burner</h3>
+  <p class="text-2xl font-bold text-rose-500">20 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~180 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Belly', 20, 180);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Butt -->
+<a href="butt.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-pink-600 cursor-pointer">
+  <h3 class="text-xl font-semibold mb-2">🍑 Booty Lift</h3>
+  <p class="text-2xl font-bold text-pink-600">25 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~220 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Butt', 25, 220);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Thigh -->
+<a href="thigh.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-indigo-500 cursor-pointer">
+  <h3 class="text-xl font-semibold mb-2">🦵 Toned Thighs</h3>
+  <p class="text-2xl font-bold text-indigo-500">15 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~140 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Thigh', 15, 140);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Arm -->
+<a href="arm.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-amber-500 cursor-pointer">
+  <h3 class="text-xl font-semibold mb-2">💪 Arm Sculpt</h3>
+  <p class="text-2xl font-bold text-amber-500">20 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~160 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Arm', 20, 160);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+<!-- Breast -->
+<a href="breast.html" class="block bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:shadow-lg transition hover:-translate-y-1 focus:outline focus:outline-fuchsia-600 cursor-pointer">
+  <h3 class="text-xl font-semibold mb-2">Chest Firming</h3>
+  <p class="text-2xl font-bold text-fuchsia-600">18 mins</p>
+  <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Burns ~150 kcal</p>
+  <button onclick="event.preventDefault(); markCompleted(this, 'Breast', 18, 150);" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 w-full">
+    Mark as Completed ✅
+  </button>
+</a>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-white dark:bg-gray-800 mt-12 px-6 py-10 text-center text-sm text-gray-600 dark:text-gray-300">
+  <p>&copy; 2025 <span class="font-bold text-teal-500">GlowFit</span>. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  AOS.init();
+
+  // Redirect if not logged in
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'login.html';
+  }
+
+  // Toggle dropdown
+  function toggleDropdown() {
+    document.getElementById("dropdown").classList.toggle("hidden");
+  }
+
+  // Set user info in dropdown
+  document.getElementById('dropdownName').textContent = localStorage.getItem('name') || 'User';
+  document.getElementById('dropdownUsername').textContent = '@' + (localStorage.getItem('username') || '');
+  document.getElementById('dropdownEmail').textContent = localStorage.getItem('email') || '';
+
+  // Workout type select
+  function handleWorkoutTypeChange(select) {
+    const workout = select.value.toLowerCase();
+    const pages = {
+      yoga: 'yoga.html',
+      strength: 'strength.html',
+      hiit: 'hiit.html',
+      stretching: 'stretching.html',
+      belly: 'belly.html',
+      butt: 'butt.html',
+      thigh: 'thigh.html',
+      arm: 'arm.html',
+      breast: 'breast.html'
+    };
+    if (pages[workout]) {
+      window.location.href = pages[workout];
+    }
+  }
+
+  // ✅ Mark Workout as Completed — Only after saving
+  async function markCompleted(button, workoutType, duration, calories) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Please login first!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/api/workout/complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ workoutType, duration, calories })
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        alert(result.error || 'Something went wrong!');
+      } else {
+        console.log("✅ Workout Saved:", result);
+
+        // Only mark as completed after success
+        button.textContent = "Completed ✅";
+        button.disabled = true;
+        button.classList.add('bg-green-500', 'cursor-default');
+        button.classList.remove('hover:bg-teal-600');
+      }
+    } catch (err) {
+      console.error("❌ Fetch error:", err);
+      alert("Server Error");
+    }
+  }
+
+  // Logout
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+  }
+</script>
+
+
+</body>
+</html>

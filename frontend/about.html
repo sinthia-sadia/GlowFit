@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | GlowFit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-3xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="hover:text-teal-600">Dashboard</a></li>
+      <li><a href="profile.html" class="hover:text-teal-600">Profile</a></li>
+      <li><a href="workout.html" class="hover:text-teal-600">Workout</a></li>
+      <li><a href="about.html" class="text-teal-600 font-semibold">About Us</a></li>
+      <li class="relative">
+        <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+          <div class="flex items-center space-x-4 p-4">
+            <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+            <div>
+              <p class="font-bold">Sadia Alam</p>
+              <p class="text-sm text-gray-500">@sadia123</p>
+              <p class="text-sm text-gray-500">sadia@example.com</p>
+            </div>
+          </div>
+          <hr class="border-gray-300" />
+          <div class="p-4 space-y-2">
+            <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+            <a href="profile.html#edit" class="block text-teal-600 hover:underline">Edit Profile</a>
+            <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- About Section -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <section class="bg-white rounded-xl shadow-md p-8">
+      <h2 class="text-3xl font-bold text-teal-600 mb-4 text-center">About GlowFit</h2>
+      <p class="text-lg mb-6 text-gray-700 text-center">
+        GlowFit is your personal fitness companion — tracking your workouts, meals, sleep, hydration, and overall well-being in one beautiful and easy-to-use dashboard.
+      </p>
+
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Page Creators</h3>
+        <p class="text-gray-700">Built with ❤️ by:</p>
+        <ul class="mt-2 space-y-1">
+          <li>
+            <a href="https://www.facebook.com/sadia.alam.999866" target="_blank" class="text-teal-500 hover:underline">Sadia Alam</a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/fahmida.afrin.790592" target="_blank" class="text-teal-500 hover:underline">Fahmida Afrin</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-center mb-8">
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Contact Information</h3>
+        <p class="text-gray-700">
+          Email: <a href="mailto:glowfit.support@gmail.com" class="text-teal-500 hover:underline">glowfit.support@gmail.com</a><br>
+          Phone: <a href="tel:+8801234567890" class="text-teal-500 hover:underline">+880 1234-567890</a>
+        </p>
+      </div>
+      <!-- Feedback Button -->
+    <div class="text-center mb-8">
+      <a href="feedback.html" class="inline-block bg-gray-100 text-teal-600 px-4 py-2 rounded hover:bg-gray-100 font-medium">Give Feedback</a>
+    </div>
+
+    <!-- Terms Button -->
+    <div class="text-center mb-8">
+      <button id="termsBtn" class="inline-block bg-gray-100 text-teal-600 px-4 py-2 rounded hover:bg-gray-100 font-medium">Terms and Conditions</button>
+    </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center mt-12 space-y-2">
+    <p>© 2025 GlowFit.</p>
+    <p>
+      Built by 
+      <a href="https://www.facebook.com/sadia.alam.999866" class="text-white font-semibold hover:underline" target="_blank">Sadia Alam</a> and 
+      <a href="https://www.facebook.com/fahmida.afrin.790592" class="text-white font-semibold hover:underline" target="_blank">Fahmida Afrin</a>
+    </p>
+  </footer>
+
+  <!-- Terms and Conditions Modal -->
+  <div id="termsModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl max-w-lg w-full">
+      <h4 class="text-xl font-semibold text-center mb-4 text-teal-600">Terms and Conditions</h4>
+      <p class="text-gray-600 dark:text-gray-400">
+        By using this website, you agree to GlowFit's terms and policies. Your data remains secure, and any misuse may result in restricted access.
+        For full legal details, please contact the creators directly.
+      </p>
+      <div class="mt-6 text-center">
+        <button id="closeTermsBtn" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script for Modal -->
+  <script>
+    const termsBtn = document.getElementById("termsBtn");
+    const termsModal = document.getElementById("termsModal");
+    const closeTermsBtn = document.getElementById("closeTermsBtn");
+
+    termsBtn.addEventListener("click", () => {
+      termsModal.classList.remove("hidden");
+    });
+
+    closeTermsBtn.addEventListener("click", () => {
+      termsModal.classList.add("hidden");
+    });
+     function toggleDropdown() {
+    document.getElementById('dropdown').classList.toggle('hidden');
+  }
+
+  function logout() {
+    alert('Logging out...');
+    window.location.href = 'index.html';
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit | Steps</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-green-50 text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <h1 class="text-4xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1>
+    <ul class="flex space-x-6 text-lg">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html" class="text-teal-600 font-semibold">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="workout.html">Workout</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main -->
+  <main class="max-w-3xl mx-auto p-6">
+    <section class="bg-green-100 rounded-lg shadow p-6 mt-6 text-center">
+      <h2 class="text-3xl font-extrabold text-green-700 mb-4">🚶 Step Tracker</h2>
+      <dotlottie-player src="https://lottie.host/4e53864a-e6ba-4814-bcdf-07e430662ade/zMtATq5IEU.lottie" background="transparent" speed="1" style="width: 320px; height: 320px; margin: auto;" loop autoplay></dotlottie-player>
+
+      <!-- Step Form -->
+      <form id="stepForm" class="mt-6">
+        <input type="number" id="stepInput" placeholder="Enter today's steps" class="px-4 py-2 border rounded w-64" required />
+        <button type="submit" class="ml-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save Steps</button>
+      </form>
+
+      <!-- Step Info -->
+      <p class="text-2xl mt-6">You’ve walked <span id="todaySteps" class="font-extrabold text-green-600 text-3xl">0</span> steps today!</p>
+      <p class="text-lg text-gray-700 mb-4">🎯 Target: 10,000 steps/day</p>
+
+      <!-- Chart -->
+      <canvas id="stepChart" height="160" class="mx-auto mb-6"></canvas>
+    </section>
+  </main>
+
+  <footer class="bg-green-600 text-white text-center p-4 mt-10 text-base">
+    <p>© 2025 GlowFit. All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to access this page.");
+      window.location.href = "login.html";
+    }
+
+    const ctx = document.getElementById('stepChart').getContext('2d');
+    let stepChart;
+
+    function loadSteps(overrideTodaySteps = null) {
+  fetch("http://localhost:5000/api/steps/weekly", {
+    headers: { Authorization: "Bearer " + token }
+  })
+  .then(res => {
+    if (res.status === 401) {
+      localStorage.removeItem("token");
+      alert("Session expired. Please login again.");
+      window.location.href = "login.html";
+      throw new Error("Unauthorized");
+    }
+    return res.json();
+  })
+  .then(data => {
+    const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const steps = data.stepsPerDay;
+    const today = new Date().getDay();
+
+    // ✅ Use override if provided
+    const todaySteps = overrideTodaySteps !== null ? overrideTodaySteps : (steps[today] || 0);
+    document.getElementById("todaySteps").innerText = todaySteps.toLocaleString();
+
+    if (stepChart) stepChart.destroy();
+    stepChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Steps',
+          data: steps,
+          backgroundColor: '#16a34a'
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 2000 } }
+        }
+      }
+    });
+  })
+  .catch(err => console.error("Step chart fetch error:", err));
+}
+
+
+    // Save steps
+    document.getElementById("stepForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const steps = parseInt(document.getElementById("stepInput").value);
+
+  fetch("http://localhost:5000/api/steps", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify({ steps })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert("Steps saved!");
+    loadSteps(steps);  // 
+  })
+  .catch(err => {
+    console.error("Step save error:", err);
+    alert("Failed to save steps.");
+  });
+});
+
+
+    // Initial load
+    loadSteps();
+  </script>
+</body>
+</html>

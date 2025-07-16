@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="transition duration-300">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit | Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    #toggleDark {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background-color: white;
+      color: black;
+      padding: 0.5rem;
+      border-radius: 9999px;
+      font-size: 1.3rem;
+      z-index: 50;
+    }
+    .dark #toggleDark {
+      background-color: #1e293b;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 text-gray-900 dark:text-white relative">
+  <button id="toggleDark">🌓</button>
+  <div class="absolute inset-0 z-0 bg-gradient-to-br from-white/80 via-white/60 to-gray-200/50 dark:from-gray-900/80 dark:via-gray-800/70 dark:to-slate-900/80"></div>
+
+  <div class="z-10 max-w-md w-full p-8 rounded-xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-xl relative">
+    <h2 class="text-3xl font-bold mb-6 text-center text-teal-600 dark:text-teal-400">
+      Log In to <span class="text-gray-800 dark:text-white">GlowFit</span>
+    </h2>
+
+    <form id="loginForm">
+      <label for="email" class="block mb-2 font-semibold">Email</label>
+      <input type="email" id="email" required
+        class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+        placeholder="example@email.com" />
+
+      <label for="password" class="block mb-2 font-semibold">Password</label>
+      <input type="password" id="password" required
+        class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+        placeholder="Enter your password" />
+
+      <div class="flex items-center justify-between mb-4 text-sm">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" class="rounded border-gray-300 dark:border-gray-600" />
+          <span>Remember me</span>
+        </label>
+        <a href="#forgot" class="text-teal-600 dark:text-teal-400 hover:underline">Forgot password?</a>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white py-3 rounded-lg font-semibold transition">
+        Log In
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-gray-700 dark:text-gray-300">
+      Don't have an account?
+      <a href="signup.html" class="text-teal-600 dark:text-teal-400 font-semibold hover:underline">Sign up here</a>
+    </p>
+  </div>
+
+  <div id="forgotModal" class="fixed inset-0 bg-black/50 z-50 hidden justify-center items-center">
+    <div class="bg-white dark:bg-gray-900 p-8 rounded-xl w-full max-w-sm shadow-xl text-center">
+      <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Reset Your Password</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Enter your email address to reset password.</p>
+      <input id="resetEmail" type="email" placeholder="you@example.com"
+        class="w-full p-3 mb-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500" />
+      <div class="flex gap-2 justify-center">
+        <button onclick="sendResetLink()" class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">Send Link</button>
+        <button onclick="toggleModal(false)" class="bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-600">Cancel</button>
+      </div>
+      <p id="resetMsg" class="mt-4 text-sm text-green-600 dark:text-green-400 hidden">Link sent!</p>
+    </div>
+  </div>
+
+
+<script>
+  const toggleBtn = document.getElementById('toggleDark');
+  const html = document.documentElement;
+
+  if (localStorage.getItem('theme') === 'dark') {
+    html.classList.add('dark');
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  function saveLoginDate() {
+    const today = new Date().toISOString().slice(0, 10);
+    let loginDates = JSON.parse(localStorage.getItem('loginDates') || '[]');
+    if (!loginDates.includes(today)) {
+      loginDates.push(today);
+      localStorage.setItem('loginDates', JSON.stringify(loginDates));
+    }
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const todayLocal = new Date().toISOString().split("T")[0]; // ✅ fixed timezone issue
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, localDate: todayLocal }), // ✅ send local date
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("username", data.username);
+        saveLoginDate();
+
+        const usedAccounts = JSON.parse(localStorage.getItem("usedAccounts") || "[]");
+        if (!usedAccounts.some(user => user.email === data.email)) {
+          usedAccounts.push({
+            name: data.name,
+            email: data.email,
+            username: data.username,
+            avatar: "https://via.placeholder.com/80"
+          });
+          localStorage.setItem("usedAccounts", JSON.stringify(usedAccounts));
+        }
+
+        window.location.href = "dashboard.html";
+      } else {
+        alert(data.error || "Login failed.");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Error connecting to server.");
+    }
+  });
+
+  function toggleModal(show = true) {
+    document.getElementById('forgotModal').classList.toggle('hidden', !show);
+    document.getElementById('resetMsg').classList.add('hidden');
+    document.getElementById('resetEmail').value = '';
+  }
+
+  document.querySelector('a[href="#forgot"]').addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleModal(true);
+  });
+
+  function sendResetLink() {
+    const email = document.getElementById('resetEmail').value;
+    if (!email) return alert("Please enter your email.");
+    alert("We’ll reach you shortly.");
+    toggleModal(false);
+  }
+</script>
+
+
+</body>
+</html>

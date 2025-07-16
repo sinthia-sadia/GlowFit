@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowFit | Sun Salutation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lottie Player Script -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+
+  <!-- NAVBAR -->
+  <nav class="flex justify-between items-center px-6 py-4 shadow bg-white dark:bg-gray-800 sticky top-0 z-50">
+    <h1 class="text-3xl font-extrabold text-teal-500">GlowFit</h1>
+    <div class="space-x-4">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="workout.html" class="hover:underline">Workouts</a>
+      <a href="dashboard.html" class="hover:underline">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="text-center py-10 bg-gradient-to-r from-rose-200 to-pink-300 dark:from-gray-800 dark:to-gray-700">
+    <h2 class="text-4xl font-bold mb-2">🧘 Sun Salutation</h2>
+    <p class="text-lg max-w-xl mx-auto px-4">A complete yoga warm-up to energize your whole body.</p>
+  </header>
+
+  <!-- LOTTIE ANIMATION -->
+  <div class="flex justify-center py-8">
+    <dotlottie-player
+      src="https://lottie.host/05912696-4e1e-4452-94ea-8e14a18a3deb/7TYYzElN4D.lottie"
+      background="transparent"
+      speed="1"
+      style="width: 300px; height: 300px"
+      loop
+      autoplay>
+    </dotlottie-player>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-6">
+
+    <!-- How to Do -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-4">How to Do Sun Salutation</h3>
+      <p class="mb-4 text-gray-700 dark:text-gray-300">
+        Sun Salutation (Surya Namaskar) is a sequence of yoga poses performed in a flow to warm up the body and connect breath with movement.
+      </p>
+      <ol class="list-decimal list-inside text-gray-700 dark:text-gray-300 space-y-2">
+        <li>Start in Mountain Pose (Tadasana) standing tall.</li>
+        <li>Inhale and raise your arms overhead (Urdhva Hastasana).</li>
+        <li>Exhale and bend forward into Forward Fold (Uttanasana).</li>
+        <li>Inhale to a half lift (Ardha Uttanasana), lengthening your spine.</li>
+        <li>Exhale and step back into Plank Pose.</li>
+        <li>Lower down slowly into Chaturanga Dandasana.</li>
+        <li>Inhale into Upward Facing Dog or Cobra Pose.</li>
+        <li>Exhale to Downward Facing Dog.</li>
+        <li>Inhale, step forward to Half Lift.</li>
+        <li>Exhale, fold forward.</li>
+        <li>Inhale, sweep your arms overhead.</li>
+        <li>Exhale, return to Mountain Pose.</li>
+      </ol>
+    </section>
+
+    <!-- Equipment -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-2">🏋️ Equipment Needed</h3>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1">
+        <li>Yoga mat for comfort and grip</li>
+        <li>Comfortable, stretchable clothing</li>
+        <li>Optional: Yoga blocks or straps for modifications</li>
+      </ul>
+    </section>
+
+    <!-- Benefits -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-2">💪 Benefits</h3>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1">
+        <li>Improves flexibility and posture</li>
+        <li>Strengthens muscles and tones the body</li>
+        <li>Boosts cardiovascular health</li>
+        <li>Reduces stress and improves mental clarity</li>
+        <li>Enhances lung capacity and breathing control</li>
+      </ul>
+    </section>
+
+    <!-- Tips -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-2">✅ Tips</h3>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1">
+        <li>Move smoothly with your breath</li>
+        <li>Do 3–5 rounds to warm up your body</li>
+        <li>Use modifications if you’re a beginner</li>
+      </ul>
+    </section>
+
+    <!-- Calories Burned -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+      <h3 class="text-xl font-bold text-teal-500 mb-2">🔥 Estimated Calories Burned</h3>
+      <p class="text-gray-700 dark:text-gray-300">
+        Approximately <span class="font-semibold text-teal-500">40–70 calories</span> per 10 minutes depending on pace and body weight.
+      </p>
+    </section>
+
+
+    
+    <!-- Motivational Quote -->
+    <section class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md text-center italic text-lg text-gray-700 dark:text-gray-300">
+      "Flow with the sun and feel your energy rise!"
+    </section>
+
+  </main>
+
+  <!-- BACK BUTTON -->
+  <div class="text-center mt-6 mb-12">
+    <a href="yoga.html" class="inline-block px-6 py-3 bg-teal-500 text-white font-semibold rounded-full shadow hover:bg-teal-600 transition duration-200">
+      ← Back to yoga
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white p-6 text-center mt-12 space-y-2">
+    <p>© 2025 GlowFit.</p>
+    <p>
+      Built by 
+      <a href="https://www.facebook.com/sadia.alam.999866" class="text-white font-semibold hover:underline" target="_blank">Sadia Alam</a> and 
+      <a href="https://www.facebook.com/fahmida.afrin.790592" class="text-white font-semibold hover:underline" target="_blank">Fahmida Afrin</a>
+    </p>
+  </footer>
+
+</body>
+</html>

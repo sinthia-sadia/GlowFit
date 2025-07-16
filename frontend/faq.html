@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit | FAQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out, padding 0.3s ease;
+      padding: 0 1.5rem;
+    }
+
+    .accordion-content.open {
+      max-height: 300px;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-teal-50 dark:bg-gray-900 text-gray-900 dark:text-white transition duration-300">
+
+  <!-- Header -->
+  <header class="bg-teal-600 dark:bg-gray-800 text-white p-6 text-center shadow-md">
+    <h1 class="text-4xl font-extrabold">GlowFit FAQ</h1>
+    <p class="mt-2 text-teal-100">Frequently Asked Questions</p>
+  </header>
+
+  <!-- FAQ Section -->
+  <main class="max-w-4xl mx-auto py-12 px-4 space-y-6">
+    <div id="faq" class="space-y-4">
+      <!-- Questions will be added here dynamically -->
+    </div>
+
+    <!-- Ask Your Question -->
+    <div class="mt-12 p-6 rounded-xl bg-white dark:bg-gray-800 shadow-md">
+      <h2 class="text-2xl font-bold mb-4 text-teal-700 dark:text-white">Still have questions?</h2>
+      <p class="mb-4 text-gray-700 dark:text-gray-300">Let us know your query and we’ll respond soon.</p>
+      <form class="space-y-4">
+        <input type="text" placeholder="Your Name" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900" required />
+        <input type="email" placeholder="Your Email" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900" required />
+        <textarea placeholder="Type your question..." rows="4" class="w-full p-3 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900" required></textarea>
+        <button type="submit" class="bg-teal-600 text-white px-6 py-3 rounded hover:bg-teal-700 transition">Submit Question</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-teal-600 text-white text-center py-6 mt-16">
+    <p>&copy; 2024 GlowFit. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript to create FAQ items -->
+  <script>
+    const faqs = [
+      {
+        question: "What is GlowFit?",
+        answer: "GlowFit is your all-in-one fitness platform with workouts, nutrition tracking, water/sleep monitors and motivational features."
+      },
+      {
+        question: "How do I track my daily workouts?",
+        answer: "Go to the Workout Planner section. Select a workout and mark it complete once you're done."
+      },
+      {
+        question: "Can I customize my fitness goals?",
+        answer: "Yes, you can set custom goals for steps, water, sleep, workouts, and calories from the Settings section."
+      },
+      {
+        question: "Is my data secure and private?",
+        answer: "Yes, your data is encrypted and never shared. GlowFit follows strict privacy policies."
+      },
+      {
+        question: "How can I reset my password?",
+        answer: "On the login screen, click 'Forgot Password' and follow the email instructions."
+      },
+      {
+        question: "Does GlowFit offer meal plans?",
+        answer: "Yes! You can explore personalized meal plans based on your fitness goals under the Nutrition tab."
+      },
+      {
+        question: "Can I use GlowFit offline?",
+        answer: "You can view previously loaded data offline. However, updates and syncing require an internet connection."
+      },
+      {
+        question: "Is there a dark mode available?",
+        answer: "Yes! GlowFit supports dark mode for comfortable nighttime viewing."
+      }
+    ];
+
+    const faqContainer = document.getElementById('faq');
+
+    faqs.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'border rounded-lg overflow-hidden';
+
+      const btn = document.createElement('button');
+      btn.className = 'w-full px-6 py-4 bg-white dark:bg-gray-800 text-left text-lg font-semibold hover:bg-teal-100 dark:hover:bg-gray-700';
+      btn.textContent = item.question;
+      btn.onclick = function () {
+        const all = document.querySelectorAll('.accordion-content');
+        all.forEach(c => c.classList.remove('open'));
+        const current = this.nextElementSibling;
+        current.classList.toggle('open');
+      };
+
+      const content = document.createElement('div');
+      content.className = 'accordion-content bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300';
+      content.innerHTML = item.answer;
+
+      div.appendChild(btn);
+      div.appendChild(content);
+      faqContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowFit | Calories Burned</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body class="bg-red-50 text-gray-900">
+
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+    <div><h1 class="text-4xl font-extrabold text-teal-500 tracking-wide">GlowFit</h1></div>
+    <ul class="flex space-x-6 text-lg">
+      <li><a href="index.html" class="hover:text-teal-600">Home</a></li>
+      <li><a href="dashboard.html" class="text-teal-600 font-semibold">Dashboard</a></li>
+      <li><a href="profile.html" class="hover:text-teal-600">Profile</a></li>
+      <li><a href="workout.html" class="hover:text-teal-600">Workout</a></li>
+      <li><a href="about.html" class="hover:text-teal-600">About Us</a></li>
+      <li class="relative">
+        <button onclick="toggleDropdown()" class="hover:text-teal-600">...</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-64 bg-white border rounded shadow hidden">
+          <div class="flex items-center space-x-4 p-4">
+            <img src="#" alt="Profile Pic" class="rounded-full w-12 h-12 bg-gray-200">
+            <div>
+              <p class="font-bold text-base">Sadia Alam</p>
+              <p class="text-sm text-gray-500">@sadia123</p>
+              <p class="text-sm text-gray-500">sadia@example.com</p>
+            </div>
+          </div>
+          <hr class="border-gray-300" />
+          <div class="p-4 space-y-2 text-base">
+            <a href="manageaccount.html" class="block text-teal-600 hover:underline">Manage Account</a>
+            <a href="profile.html#edit" class="block text-teal-600 hover:underline">Edit Profile</a>
+            <button onclick="logout()" class="text-red-600 hover:underline">Logout</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-3xl mx-auto p-6">
+    <section class="bg-red-100 rounded-lg shadow p-6 mt-6 text-center">
+      <h2 class="text-3xl font-extrabold text-red-700 mb-4 mt-2">🔥 Calories Burned</h2>
+
+      <!-- New Custom Lottie Animation -->
+      <dotlottie-player 
+        src="https://lottie.host/c0aae76f-4e04-4475-9139-fde0720fbe8f/uNVc2buvo8.lottie" 
+        background="transparent" 
+        speed="1" 
+        style="width: 300px; height: 300px; margin: auto;" 
+        loop 
+        autoplay>
+      </dotlottie-player>
+
+      <p class="text-2xl mt-6">You’ve burned <span class="font-extrabold text-red-600 text-3xl">350</span> kcal today!</p>
+      <p class="text-lg text-gray-700 mb-4 mt-1">🎯 Goal: 500 kcal/day</p>
+
+      <!-- Chart -->
+      <canvas id="calorieChart" height="160" class="mx-auto mb-6"></canvas>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-red-600 text-white text-center p-4 mt-10 text-base">
+    <p>© 2024 GlowFit. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    function toggleDropdown() {
+      document.getElementById('dropdown').classList.toggle('hidden');
+    }
+
+    function logout() {
+      alert('Logging out...');
+      window.location.href = 'index.html';
+    }
+
+    const ctx = document.getElementById('calorieChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Calories Burned',
+          data: [320, 400, 300, 420, 390, 500, 350],
+          backgroundColor: '#dc2626'
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 100
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GlowFit - Sleep Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-indigo-50 text-gray-900">
+
+  <main class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    <h1 class="text-3xl font-bold mb-6 text-center text-purple-700">🛌 Log Your Sleep</h1>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-6">
+      <div>
+        <label class="block mb-1 font-semibold">Sleep Time</label>
+        <input id="sleepTime" type="time" class="w-full p-2 border rounded" />
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold">Wake Time</label>
+        <input id="wakeTime" type="time" class="w-full p-2 border rounded" />
+      </div>
+    </div>
+
+    <button onclick="saveSleep()" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition">Save Sleep</button>
+
+    <div class="mt-8 text-center">
+      <h2 class="text-lg font-semibold mb-2">Last Entry</h2>
+      <p id="duration" class="text-2xl font-bold text-purple-700">0 hrs 0 mins</p>
+      <p id="feedback" class="text-gray-500">Enter sleep and wake time</p>
+    </div>
+
+    <div class="mt-10 border-t pt-6">
+      <h2 class="text-lg font-bold mb-2">📅 View Past Sleep</h2>
+      <div class="flex items-center gap-3">
+        <input id="historyDate" type="date" class="flex-1 border p-2 rounded" />
+        <button onclick="fetchSleep()" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">View</button>
+      </div>
+      <div id="historyResult" class="mt-4 text-center text-sm text-gray-700"></div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button onclick="location.href='dashboard.html'" class="text-purple-600 hover:underline">← Back to Dashboard</button>
+    </div>
+  </main>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) location.href = "login.html";
+
+    function saveSleep() {
+      const sleepTime = document.getElementById("sleepTime").value;
+      const wakeTime = document.getElementById("wakeTime").value;
+      if (!sleepTime || !wakeTime) return alert("Please fill both fields.");
+
+      const today = new Date();
+      const offset = today.getTimezoneOffset() * 60000;
+      const localDate = new Date(today - offset).toISOString().split("T")[0];
+
+      let sleep = new Date(`${localDate}T${sleepTime}`);
+      let wake = new Date(`${localDate}T${wakeTime}`);
+      if (wake <= sleep) wake.setDate(wake.getDate() + 1);
+
+      const durationMs = wake - sleep;
+      const hrs = Math.floor(durationMs / 3600000);
+      const mins = Math.floor((durationMs % 3600000) / 60000);
+
+      document.getElementById("duration").textContent = `${hrs} hrs ${mins} mins`;
+      document.getElementById("feedback").textContent = 
+        hrs >= 8 ? "Perfect sleep! 😴" :
+        hrs >= 6 ? "Good rest!" : "You need more rest! 🥱";
+
+      fetch("http://localhost:5000/api/sleep", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ sleepTime, wakeTime })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data._id) alert("✅ Sleep data saved!");
+        else alert("❌ Failed to save sleep data.");
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Server error");
+      });
+    }
+
+    function fetchSleep() {
+      const date = document.getElementById("historyDate").value;
+      if (!date) return;
+
+      fetch(`http://localhost:5000/api/sleep/${date}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => res.json())
+      .then(data => {
+        const div = document.getElementById("historyResult");
+        if (!data || !data.sleepTime || !data.wakeTime) {
+          div.innerHTML = "No data found.";
+        } else {
+          div.innerHTML = `
+            <p><strong>Sleep:</strong> ${data.sleepTime}</p>
+            <p><strong>Wake:</strong> ${data.wakeTime}</p>
+          `;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Failed to fetch history.");
+      });
+    }
+  </script>
+</body>
+</html>
