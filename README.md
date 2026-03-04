@@ -4,7 +4,7 @@ GlowFit is a full-stack fitness tracking web application designed to help users 
 
 The application integrates a dynamic frontend with a backend server and database to provide real-time tracking, persistent storage, and personalized user data management.
 
-## Features
+# Features
 
 🔐 User Authentication (Register / Login)
 
@@ -26,8 +26,8 @@ The application integrates a dynamic frontend with a backend server and database
 
 ☁️ Persistent data storage using MongoDB
 
-## Tech Stack
-# Frontend
+# Tech Stack
+## Frontend
 
 HTML
 
@@ -35,7 +35,7 @@ Tailwind CSS
 
 JavaScript
 
-# Backend
+## Backend
 
 Node.js
 
@@ -45,7 +45,7 @@ Database
 
 MongoDB
 
-## Architecture Overview
+# Architecture Overview
 frontend/<br>
  ├── HTML<br>
  ├── Tailwind CSS<br>
@@ -64,7 +64,7 @@ MongoDB stores user profiles, workouts, goals, and nutrition data
 
 Backend processes calculations (BMI, streaks, summaries)
 
-## Core Functionalities
+# Core Functionalities
 
 Users can securely log in and manage their own data
 
@@ -76,7 +76,7 @@ Weekly streak tracking encourages consistency
 
 Budgeted health metrics and progress tracking for long-term improvement
 
-## What I Learned
+# What I Learned
 
 Designing and structuring full-stack applications
 
@@ -90,7 +90,7 @@ Managing user sessions and authentication logic
 
 Building scalable and maintainable project structures
 
-## Project Purpose
+# Project Purpose
 GlowFit was built to explore:
 Full-Stack Development × User-Centered Design × Real-Time Data Handling
 
