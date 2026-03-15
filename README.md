@@ -76,20 +76,6 @@ Weekly streak tracking encourages consistency
 
 Budgeted health metrics and progress tracking for long-term improvement
 
-# What I Learned
-
-Designing and structuring full-stack applications
-
-Creating RESTful APIs using Express
-
-Database schema design & CRUD operations
-
-Connecting frontend with backend using HTTP requests
-
-Managing user sessions and authentication logic
-
-Building scalable and maintainable project structures
-
 # Project Purpose
 GlowFit was built to explore:
 Full-Stack Development × User-Centered Design × Real-Time Data Handling
